@@ -1,0 +1,18 @@
+  three steps:
+
+  double click everywhere - possible chains of padas
+  click on a pada - morphological analysis
+  click on a morph row - dictionaries
+
+
+  ESC - closes all popups
+  Shift-mouse over a word - IAST transliteration
+  Shift-mouse over a morphology - European notation
+
+
+  editor - just type devanagari, keyboard layout mimics SLP1, then Enter or double-click
+
+  detailed description: http://sa.diglossa.org/
+  code: https://github.com/mbykov
+  license: GNU GPL
+  email: Michael Bykov, m.bykov@gmail.com
