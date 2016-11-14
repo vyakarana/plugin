@@ -1,12 +1,26 @@
 //
 'use strict';
 
-log('===START===');
+// log('===START===');
 
 var classes = require('component/classes');
 var salita = require('mbykov/salita');
 var events = require('component/events');
 var draggable = require('./draggable');
+
+function messToBack(message) {
+    log('MESS to back  start', message);
+    chrome.runtime.sendMessage(message, function(response) {
+        // cb(response);
+    });
+}
+
+chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
+    if (msg.action != 'morph_result') return;
+    if (!msg.res.data) return;
+    showPopup(msg.res);
+});
+
 
 document.addEventListener('dblclick', function(ev) {
     let selection = window.getSelection();
@@ -183,22 +197,6 @@ function createHeader() {
     return head;
 }
 
-
-var morph;
-// var oldCoords;
-
-function messToBack(message) {
-    log('MESS to back  start', message);
-    chrome.runtime.sendMessage(message, function(response) {
-        // cb(response);
-    });
-}
-
-chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
-    if (msg.action != 'morph_result') return;
-    if (!msg.res.data) return;
-    showPopup(msg.res);
-});
 
 function getCoords() {
     let selection = window.getSelection();
