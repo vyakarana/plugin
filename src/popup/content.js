@@ -58,19 +58,18 @@ document.addEventListener('dblclick', function(ev) {
         let message = {form: nagari, next: next, target: target};
         messToBack(message);
     }
-    // let res = {query: nagari, target: target};
+    // let res = {query: nagari, data: {a:1}, target: target};
     // showPopup(res);
 
 }, false);
 
-let unbind = null;
 
 function showPopup(res) {
     closeAll();
     let popup = createPopup();
     q('body').appendChild(popup);
-    log('SHOW POPUP DATA', res.data);
-    log('TARGET... should be false', res.target);
+    // log('SHOW POPUP DATA', res.data);
+    // log('TARGET... should be false', res.target);
 
     if (!res.target) {
         placePopup(popup);
@@ -197,19 +196,8 @@ function messToBack(message) {
 
 chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
     if (msg.action != 'morph_result') return;
-    // log('BACK RES', msg.res);
     if (!msg.res.data) return;
-    // log('BACK RES DATA', msg.res.data);
     showPopup(msg.res);
-
-    // if (msg.action == 'morph_result') {
-    //     // morph = msg.res.morph;
-    //     showPopup(msg.res);
-    // } else if (msg.action == 'dicts_result') {
-    //     let alldicts = msg.res.dicts;
-    //     morph.alldicts = alldicts; // total dicts
-    //     // drawDicts();
-    // }
 });
 
 function getCoords() {
@@ -346,6 +334,7 @@ function showTranslit(iast) {
     // FIXME: но только как его закрыть?
 }
 
+function log() { console.log.apply(console, arguments);}
 
 // function isInPopup(ev) {
 //     let popup = q('#morph-popup');
@@ -363,7 +352,3 @@ function showTranslit(iast) {
 //     }
 //     return false;
 // }
-
-function log() {
-    console.log.apply(console, arguments);
-}
