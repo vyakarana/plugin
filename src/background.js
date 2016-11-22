@@ -15,6 +15,8 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
             let data = require('./tmp.js');
             res.data = data[0];
 
+
+
             res.target = message.target;
             // console.log('MESSAGE');
             chrome.tabs.query({active: true, currentWindow: true}, function(tabs){

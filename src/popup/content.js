@@ -7,9 +7,13 @@ var classes = require('component/classes');
 var salita = require('mbykov/salita');
 var events = require('component/events');
 var draggable = require('./draggable');
+// log('SUTRA:');
+let sutra = require('../sutradetailsformorpheus.json');
+// log('SUTRA', sutra);
+
 
 function messToBack(message) {
-    log('MESS to back  start', message);
+    // console.log('MESS to back  start', message);
     chrome.runtime.sendMessage(message, function(response) {
         // cb(response);
     });
@@ -18,6 +22,7 @@ function messToBack(message) {
 chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
     if (msg.action != 'morph_result') return;
     if (!msg.res.data) return;
+    // console.log('RES SUTRA', msg.res);
     showPopup(msg.res);
 });
 
@@ -29,7 +34,7 @@ document.addEventListener('dblclick', function(ev) {
     nagari = cleanNagari(nagari);
 
     if (!nagari || nagari == '') return;
-    log('CLICKED', nagari);
+    console.log('CLICKED', nagari);
     showIndicator();
 
 
@@ -43,7 +48,7 @@ document.addEventListener('dblclick', function(ev) {
     let next = words[1];
 
     if (words[0] != nagari) {
-        log('STRANGE NAGARI', nagari);
+        console.log('STRANGE NAGARI', nagari);
         throw new Error();
     }
 
@@ -64,10 +69,10 @@ document.addEventListener('dblclick', function(ev) {
     if (/ऽ/.test(nagari)) {
         let query = nagari.split('ऽ').join(' अ');
         let res = {query: query, target: target};
-        showPopup(res);
+        // showPopup(res);
     } else if (nagari.length > 22) {
         let res = {query: nagari, target: target};
-        showPopup(res);
+        // showPopup(res);
     } else {
         let message = {form: nagari, next: next, target: target};
         messToBack(message);
@@ -78,12 +83,16 @@ document.addEventListener('dblclick', function(ev) {
 }, false);
 
 
+/**
+ *
+ * @param {} res
+ */
 function showPopup(res) {
     closeAll();
     let popup = createPopup();
     q('body').appendChild(popup);
-    // log('SHOW POPUP DATA', res.data);
-    // log('TARGET... should be false', res.target);
+    // console.log('SHOW POPUP DATA', res.data);
+    // console.log('TARGET... should be false', res.target);
 
     if (!res.target) {
         placePopup(popup);
@@ -128,16 +137,38 @@ function drawPaniniRules(data) {
     let oRules = q('#morph-rules');
     let rules = data.d;
     rules.forEach(function(r) {
+        // log('R-n', r.r);
+        // log('R-s', sutra[r.r]);
         let oLi = cre('li');
         let nagaris = r.i.map(function(iform) {
             let parts = iform.split('+');
             return parts.map(function(part) { return salita.slp2sa(part); }).join(' + ');
         });
         let iforms = nagaris.join(', ');
-        let rule = [r.r, iforms].join(': ');
-        oLi.textContent = rule;
+
+
+        let oForm = cspan(iforms, 'sutra-form');
+        oLi.appendChild(oForm);
+
+        // let rr = ['(', r.r, ')'].join('');
+        let stext = [r.r, sutra[r.r]].join(' - ');
+        let oSutra = cspan(stext, 'sutra-text');
+        oLi.appendChild(oSutra);
+
+        // let rule = [stext, iforms].join(': ');
+        // oLi.textContent = rule;
         oRules.appendChild(oLi);
     });
+    var rulev = events(oRules, {
+        showSutra: function(e) {
+            // log('SNAME', e.target.textContent);
+            let num = e.target.textContent.split('-')[0].trim();
+            let sutrani = 'http://sanskritdocuments.org/learning_tools/sarvanisutrani/';
+            let url = [sutrani, num, '.htm'].join('');
+            window.open(url,'_blank');
+        }
+    });
+    rulev.bind('click span.sutra-text', 'showSutra');
 }
 
 
@@ -176,24 +207,31 @@ function createHeader() {
     var head = cre('div');
     head.id = 'morph-header';
     classes(head).add('morph-header');
-    var oEd = cre('div');
-    oEd.id = 'morph-editor';
-    classes(oEd).add('morph-editor');
-    oEd.setAttribute('type', 'text');
-    head.appendChild(oEd);
+
     var oVersion = cre('div');
     oVersion.id = 'version';
     classes(oVersion).add('version');
-    var oVersionText = cre('span');
-    oVersionText.textContent = 'पाणिनि   v.0.1';
-    oVersion.appendChild(oVersionText);
-    head.appendChild(oVersion);
-
     let oX = cre('div');
     oX.id = 'morph-x';
     oX.textContent = '[x]';
     classes(oX).add('morph-x');
     oVersion.appendChild(oX);
+
+    var oVersionText = cre('div');
+    oVersionText.textContent = 'पाणिनि  -  v.0.1';
+    classes(oVersionText).add('vtext');
+    oVersion.appendChild(oVersionText);
+    // var clear = cre('div');
+    // clear.id = 'clear-both';
+    // head.appendChild(clear);
+
+    head.appendChild(oVersion);
+
+    var oEd = cre('div');
+    oEd.id = 'morph-editor';
+    classes(oEd).add('morph-editor');
+    oEd.setAttribute('type', 'text');
+    head.appendChild(oEd);
     return head;
 }
 
@@ -220,6 +258,13 @@ function inc(arr, item) {
 
 function cre(tag) {
     return document.createElement(tag);
+}
+
+function cspan(str, css) {
+    let oSpan = document.createElement('span');
+    oSpan.textContent = str;
+    classes(oSpan).add(css);
+    return oSpan;
 }
 
 function cret(str) {
@@ -291,7 +336,7 @@ function placePopup(popup) {
     let left = [coords.left, 'px'].join('');
     popup.style.top = top;
     popup.style.left = left;
-    // log('COORDS', top, left);
+    // console.log('COORDS', top, left);
 }
 
 
@@ -305,7 +350,7 @@ function showIndicator() {
     oTip.appendChild(img);
     q('body').appendChild(oTip);
     let coords = getCoords();
-    // log('INDICATOR', coords.top, coords.left);
+    // console.log('INDICATOR', coords.top, coords.left);
     coords.top = coords.top - 50;
     let top = [coords.top, 'px'].join('');
     let left = [coords.left, 'px'].join('');

@@ -1,7 +1,7 @@
 {
     "name": "pAnini-plugin",
     "description": "derivations of verb and noun forms based on Paninian rules",
-    "version": "0.0.1.0",
+    "version": "0.0.1.1",
     "permissions": ["alarms", "tabs",  "storage", "contextMenus", "*://*/*"],
     "content_scripts": [
         {

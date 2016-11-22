@@ -3,14 +3,16 @@
 
 /* @font-face does not work in FF for me */
 
-/* @font-face { */
-/*     font-family: 'Siddhanta'; */
-/*     src:  url('http://sanskritdocuments.org/all_iscii/fonts/Siddhanta.ttf') format('truetype'); */
-/*     font-weight: normal; */
-/*     font-style: normal; */
-/*     color: black; */
-/*     unicode-range: U+900-97F, U+A8E0-A8FF, U+1CD0-1CFF ; */
-/* } */
+
+@font-face {
+    font-family: 'Siddhanta';
+    src:  url('http://sanskritdocuments.org/all_iscii/fonts/Siddhanta.ttf') format('truetype');
+    src: url('chrome-extension://__MSG_@@extension_id__/data/fonts/Siddhanta.ttf');
+    font-weight: normal;
+    font-style: normal;
+    color: black;
+    unicode-range: U+900-97F, U+A8E0-A8FF, U+1CD0-1CFF ;
+}
 
 /* @font-face { */
 /*     font-family: 'Sanskrit2003'; */
@@ -28,30 +30,35 @@
 /* } */
 
 
-ul.morph-popup {
-    display: block;
-    list-style-type: circle;
-    -webkit-margin-before: 1em;
-    -webkit-margin-after: 1em;
-    -webkit-margin-start: 0px;
-    -webkit-margin-end: 0px;
-    -webkit-padding-start: 40px;
-}
-
-li.morph-popup {
-    color: black;
-    font-weight: normal;
-    font-style: normal;
-    color: black;
-    display: list-item;
-    text-align: -webkit-match-parent;
-    /* margin-top: 0; */
-    /* padding-top: 0; */
+*:focus {
+    outline: none;
 }
 
 .searchLink {
   margin-bottom: 0;
 }
+
+/* #popup { // XXX */
+/*     border: 1px solid rgba(0, 0, 0, 0.2); */
+/*     /\* display: none; *\/ */
+/*     font-size: 16px; */
+/*     /\* font-family: 'Siddhanta'; *\/ */
+/*     /\* font-family: 'Sanskrit2003'; *\/ */
+/*     font-family: Geneva, Arial, Helvetica, sans-serif; */
+/*     line-height: 26px; */
+/*     display: 'block'; */
+/*     padding: 10px; */
+/*     position: absolute; */
+/*     z-index: 1000; */
+/*     box-shadow: 0 0 10px 1px rgba(0,0,0,.3); */
+/*     height: auto; */
+/*     width: 600px; */
+/*     top: 250px; */
+/*     left: 300px; */
+/*     max-height: 500px; */
+/*     overflow: auto; */
+/*     background: #F7F2D0; */
+/* } */
 
 #morph-popup {
     border: 1px solid rgba(0, 0, 0, 0.2);
@@ -67,7 +74,7 @@ li.morph-popup {
     z-index: 1000;
     box-shadow: 0 0 10px 1px rgba(0,0,0,.3);
     height: auto;
-    width: 400px;
+    width: 600px;
     top: 250px;
     left: 300px;
     max-height: 500px;
@@ -111,13 +118,12 @@ li.morph-popup {
     /* margin-bottom: 10px; */
 }
 
-.morph-rules {
+.morph-morph {
     padding: 3px;
     margin: 3px;
-    margin-left: 50px;
     height: auto;
-    max-height: 400px;
     /* width: 700px; */
+    max-height: 100px;
     overflow: auto;
 }
 
@@ -189,14 +195,30 @@ li span.nagari {
     font-family: 'Sanskrit2003';
 }
 
-/* .x { // XXX */
-/*   float:right; */
-/*   cursor: pointer; */
-/*   /\* margin-right: -20px; *\/ */
-/*   margin-top: -30px; */
-/* } */
+.version {
+    font-size: 14px;
+    float:right;
+    cursor: pointer;
+    width: 150px;
+}
 
-/* .clear-button { // XXX */
+.vtext {
+    float:left;
+    margin-right: 25px;
+}
+
+.morph-x {
+    float:right;
+    cursor: pointer;
+}
+
+#clear-both {
+    clear:both;
+}
+
+
+
+/* .morph-clear-button { */
 /*     font-size: 10px; */
 /*     font-family: Geneva, Arial, Helvetica, sans-serif; */
 /*     line-height: 12px; */
@@ -208,26 +230,6 @@ li span.nagari {
 /*     float:right; */
 /* } */
 
-.morph-clear-button {
-    font-size: 10px;
-    font-family: Geneva, Arial, Helvetica, sans-serif;
-    line-height: 12px;
-    vertical-align: super;
-    margin-right: 200px;
-    box-shadow: 0 0 10px 1px rgba(0,0,0,.3);
-    padding: 3px;
-    cursor: pointer;
-    float:right;
-}
-
-
-.zayana {
-    font-size: 14px;
-    float:right;
-    cursor: pointer;
-    margin-right: 30px;
-    margin-top: -30px;
-}
 
 .hidden {
   display: none;
@@ -246,10 +248,6 @@ li span.nagari {
   margin-bottom: 5px;
 }
 
-.morph-header {
-    height: 50px;
-}
-
 .morph-editor {
     padding: 5px;
     color: maroon;
@@ -257,36 +255,17 @@ li span.nagari {
     margin-right: 50px;
     margin-top: 5px;
     margin-bottom: 5px;
-    width: 200px;
-    float: left;
+    width: 300px;
+    font-family: 'Siddhanta';
 }
 
-.morph-x {
-    float:right;
-    cursor: pointer;
-    /* margin-right: -20px; */
-    /* margin-top: 5px; */
-    margin-left: 25px;
+#akshara {
+    font-family: 'Sanskrit2003';
+    font-size: 24px;
+    min-height: 24px;
+    margin-right: 250px;
+    outline: 0px solid transparent;
 }
-
-.version {
-    float:right;
-    padding: 5px;
-    /* color: maroon; */
-    /* font-size: 22px; */
-    /* margin-right: 50px; */
-    margin-top: 5px;
-    margin-bottom: 5px;
-    /* width: 300px; */
-}
-
-/* #akshara { */
-/*     font-family: 'Sanskrit2003'; */
-/*     font-size: 24px; */
-/*     min-height: 24px; */
-/*     margin-right: 250px; */
-/*     outline: 0px solid transparent; */
-/* } */
 
 /* .process { */
 /*   background-image: url(img/indicator.gif); */
@@ -354,6 +333,39 @@ li.tree-text {
     font-family: Geneva, Arial, Helvetica, sans-serif;
     line-height: 18px;
 }
+
+
+.sutra-text {
+    cursor: pointer;
+}
+
+.sutra-form {
+    float:right;
+    margin-right: 20px;
+}
+
+
+ul.morph-rules {
+    display: block;
+    list-style-type: none;
+    -webkit-margin-before: 1em;
+    -webkit-margin-after: 1em;
+    -webkit-margin-start: 0px;
+    -webkit-margin-end: 0px;
+    -webkit-padding-start: 40px;
+}
+
+li.morph-rules {
+    font-weight: normal;
+    font-style: normal;
+    color: black;
+    display: list-item;
+    text-align: -webkit-match-parent;
+    /* margin-top: 0; */
+    /* padding-top: 0; */
+}
+
+
 
 /* li.tree-leaf { */
 /*   font-size: 18px; */

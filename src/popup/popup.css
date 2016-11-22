@@ -34,27 +34,6 @@
     outline: none;
 }
 
-ul.morph-popup {
-    display: block;
-    list-style-type: circle;
-    -webkit-margin-before: 1em;
-    -webkit-margin-after: 1em;
-    -webkit-margin-start: 0px;
-    -webkit-margin-end: 0px;
-    -webkit-padding-start: 40px;
-}
-
-li.morph-popup {
-    color: black;
-    font-weight: normal;
-    font-style: normal;
-    color: black;
-    display: list-item;
-    text-align: -webkit-match-parent;
-    /* margin-top: 0; */
-    /* padding-top: 0; */
-}
-
 .searchLink {
   margin-bottom: 0;
 }
@@ -216,21 +195,30 @@ li span.nagari {
     font-family: 'Sanskrit2003';
 }
 
-/* .x { // XXX */
-/*   float:right; */
-/*   cursor: pointer; */
-/*   /\* margin-right: -20px; *\/ */
-/*   margin-top: -30px; */
-/* } */
+.version {
+    font-size: 14px;
+    float:right;
+    cursor: pointer;
+    width: 150px;
+}
+
+.vtext {
+    float:left;
+    margin-right: 25px;
+}
 
 .morph-x {
     float:right;
     cursor: pointer;
-    /* margin-right: -20px; */
-    margin-top: -30px;
 }
 
-/* .clear-button { // XXX */
+#clear-both {
+    clear:both;
+}
+
+
+
+/* .morph-clear-button { */
 /*     font-size: 10px; */
 /*     font-family: Geneva, Arial, Helvetica, sans-serif; */
 /*     line-height: 12px; */
@@ -242,26 +230,6 @@ li span.nagari {
 /*     float:right; */
 /* } */
 
-.morph-clear-button {
-    font-size: 10px;
-    font-family: Geneva, Arial, Helvetica, sans-serif;
-    line-height: 12px;
-    vertical-align: super;
-    margin-right: 200px;
-    box-shadow: 0 0 10px 1px rgba(0,0,0,.3);
-    padding: 3px;
-    cursor: pointer;
-    float:right;
-}
-
-
-.version {
-    font-size: 14px;
-    float:right;
-    cursor: pointer;
-    margin-right: 50px;
-    margin-top: -30px;
-}
 
 .hidden {
   display: none;
@@ -365,6 +333,39 @@ li.tree-text {
     font-family: Geneva, Arial, Helvetica, sans-serif;
     line-height: 18px;
 }
+
+
+.sutra-text {
+    cursor: pointer;
+}
+
+.sutra-form {
+    float:right;
+    margin-right: 20px;
+}
+
+
+ul.morph-rules {
+    display: block;
+    list-style-type: none;
+    -webkit-margin-before: 1em;
+    -webkit-margin-after: 1em;
+    -webkit-margin-start: 0px;
+    -webkit-margin-end: 0px;
+    -webkit-padding-start: 40px;
+}
+
+li.morph-rules {
+    font-weight: normal;
+    font-style: normal;
+    color: black;
+    display: list-item;
+    text-align: -webkit-match-parent;
+    /* margin-top: 0; */
+    /* padding-top: 0; */
+}
+
+
 
 /* li.tree-leaf { */
 /*   font-size: 18px; */

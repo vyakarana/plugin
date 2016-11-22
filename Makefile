@@ -12,16 +12,15 @@ build: build.js back.js #build/index.css
 # build: $(JS) $(HTML) $(JSON)
 build.js:
 #	@duo --stdout client/index.js > public/javascripts/index.js
-	@duo popup/content.js -o plugin -r src
+	@duo popup/content.js -o ../plugin -r src
 
 back.js:
 #	@duo --stdout client/index.js > public/javascripts/index.js
-	@duo background.js -o plugin -r src
+	@duo background.js -o ../plugin -r src
 
 # Build the CSS source with Duo and Myth.
-build/index.css:
-#	@duo --type css client/index.css -o public/stylesheets
-	@duo popup/popup.css # client/img/*.png
+css:
+	@duo popup/popup.css -o ../plugin -r src
 
 min:  components client views public routes client/boot client/example
 	@component build --dev
