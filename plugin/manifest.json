@@ -6,13 +6,13 @@
     "content_scripts": [
         {
             "matches": ["http://*/*", "https://*/*"],
-            "css": ["popup/translit.css", "popup/popup.css"],
-            "js": ["popup/content.js"]
+            "css": ["popup.css"],
+            "js": ["content.js"]
         }
     ],
     "web_accessible_resources": [
         "data/fonts/*.*",
-        "popup/img/indicator.gif"
+        "data/img/indicator.gif"
     ],
     "background": {
         "scripts": ["background.js"],

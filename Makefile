@@ -6,21 +6,19 @@ JSON = $(wildcard client/*/*.json)
 HTML = $(wildcard client/*/*.html)
 
 #build: build/index.js #build/index.css
-build: build.js back.js #build/index.css
+build: cont back #build/index.css
 
 # build/index.js: $(JS) $(HTML) $(JSON)
 # build: $(JS) $(HTML) $(JSON)
-build.js:
-#	@duo --stdout client/index.js > public/javascripts/index.js
-	@duo popup/content.js -o ../plugin -r src
+cont:
+	@duo content.js -o ../plugin -r src
 
-back.js:
-#	@duo --stdout client/index.js > public/javascripts/index.js
+back:
 	@duo background.js -o ../plugin -r src
 
 # Build the CSS source with Duo and Myth.
 css:
-	@duo popup/popup.css -o ../plugin -r src
+	@duo popup.css -o ../plugin -r src
 
 min:  components client views public routes client/boot client/example
 	@component build --dev

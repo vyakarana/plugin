@@ -4,11 +4,12 @@
 // log('===START===');
 
 var classes = require('component/classes');
-var salita = require('mbykov/salita');
-var events = require('component/events');
-var draggable = require('./draggable');
+// var salita = require('mbykov/salita');
+// var events = require('component/events');
+// var draggable = require('./draggable');
+var popup = require('./popup');
 // log('SUTRA:');
-let sutra = require('../sutradetailsformorpheus.json');
+// let sutra = require('./sutradetailsformorpheus.json');
 // log('SUTRA', sutra);
 
 
@@ -23,7 +24,9 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
     if (msg.action != 'morph_result') return;
     if (!msg.res.data) return;
     // console.log('RES SUTRA', msg.res);
-    showPopup(msg.res);
+    closeAll();
+    popup.show(msg.res);
+    // showPopup(msg.res);
 });
 
 
@@ -89,20 +92,20 @@ document.addEventListener('dblclick', function(ev) {
  */
 function showPopup(res) {
     closeAll();
-    let popup = createPopup();
-    q('body').appendChild(popup);
+    let oPopup = createPopup();
+    q('body').appendChild(oPopup);
     // console.log('SHOW POPUP DATA', res.data);
     // console.log('TARGET... should be false', res.target);
 
     if (!res.target) {
-        placePopup(popup);
+        placePopup(oPopup);
     }
 
     drawEditor(res.query);
     drawPaniniRules(res.data);
 
     let exter = q('#morph-exter');
-    let drag = new draggable(popup);
+    let drag = new draggable(oPopup);
     // this.drag = drag;
     let exterev = events(exter, {
         onmousedown: function(ev) {
@@ -137,8 +140,7 @@ function drawPaniniRules(data) {
     let oRules = q('#morph-rules');
     let rules = data.d;
     rules.forEach(function(r) {
-        // log('R-n', r.r);
-        // log('R-s', sutra[r.r]);
+        // log('R-s', r.r, sutra[r.r]);
         let oLi = cre('li');
         let nagaris = r.i.map(function(iform) {
             let parts = iform.split('+');
@@ -236,14 +238,6 @@ function createHeader() {
 }
 
 
-function getCoords() {
-    let selection = window.getSelection();
-    let oRange = selection.getRangeAt(0); //get the text range
-    let oRect = oRange.getBoundingClientRect();
-    let bodyScrollTop = document.documentElement.scrollTop || document.body.scrollTop;
-    return {top: oRect.top +  bodyScrollTop, left: oRect.left};
-}
-
 function q(sel) {
     return document.querySelector(sel);
 }
@@ -339,6 +333,14 @@ function placePopup(popup) {
     // console.log('COORDS', top, left);
 }
 
+function getCoords() {
+    let selection = window.getSelection();
+    let oRange = selection.getRangeAt(0); //get the text range
+    let oRect = oRange.getBoundingClientRect();
+    let bodyScrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+    return {top: oRect.top + bodyScrollTop, left: oRect.left};
+}
+
 
 // coords from selection
 function showIndicator() {
@@ -346,11 +348,11 @@ function showIndicator() {
     oTip.id = 'morph-tip';
     classes(oTip).add('translit');
     let img = cre('img');
-    img.src = chrome.extension.getURL('popup/img/indicator.gif');
+    img.src = chrome.extension.getURL('data/img/indicator.gif');
     oTip.appendChild(img);
     q('body').appendChild(oTip);
     let coords = getCoords();
-    // console.log('INDICATOR', coords.top, coords.left);
+    // log('INDICATOR', coords.top, coords.left);
     coords.top = coords.top - 50;
     let top = [coords.top, 'px'].join('');
     let left = [coords.left, 'px'].join('');
