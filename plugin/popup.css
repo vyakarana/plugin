@@ -38,27 +38,9 @@
   margin-bottom: 0;
 }
 
-/* #popup { // XXX */
-/*     border: 1px solid rgba(0, 0, 0, 0.2); */
-/*     /\* display: none; *\/ */
-/*     font-size: 16px; */
-/*     /\* font-family: 'Siddhanta'; *\/ */
-/*     /\* font-family: 'Sanskrit2003'; *\/ */
-/*     font-family: Geneva, Arial, Helvetica, sans-serif; */
-/*     line-height: 26px; */
-/*     display: 'block'; */
-/*     padding: 10px; */
-/*     position: absolute; */
-/*     z-index: 1000; */
-/*     box-shadow: 0 0 10px 1px rgba(0,0,0,.3); */
-/*     height: auto; */
-/*     width: 600px; */
-/*     top: 250px; */
-/*     left: 300px; */
-/*     max-height: 500px; */
-/*     overflow: auto; */
-/*     background: #F7F2D0; */
-/* } */
+.morph-header {
+    height: 30px;
+}
 
 #morph-popup {
     border: 1px solid rgba(0, 0, 0, 0.2);
@@ -74,7 +56,7 @@
     z-index: 1000;
     box-shadow: 0 0 10px 1px rgba(0,0,0,.3);
     height: auto;
-    width: 600px;
+    width: 500px;
     top: 250px;
     left: 300px;
     max-height: 500px;
@@ -337,6 +319,14 @@ li.tree-text {
 
 .sutra-text {
     cursor: pointer;
+}
+
+.sutra-tail {
+    display: none;
+}
+
+.sutra-num {
+    color: maroon;
 }
 
 .sutra-form {

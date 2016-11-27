@@ -86,156 +86,156 @@ document.addEventListener('dblclick', function(ev) {
 }, false);
 
 
-/**
- *
- * @param {} res
- */
-function showPopup(res) {
-    closeAll();
-    let oPopup = createPopup();
-    q('body').appendChild(oPopup);
-    // console.log('SHOW POPUP DATA', res.data);
-    // console.log('TARGET... should be false', res.target);
+// /**
+//  *
+//  * @param {} res
+//  */
+// function showPopup(res) {
+//     closeAll();
+//     let oPopup = createPopup();
+//     q('body').appendChild(oPopup);
+//     // console.log('SHOW POPUP DATA', res.data);
+//     // console.log('TARGET... should be false', res.target);
 
-    if (!res.target) {
-        placePopup(oPopup);
-    }
+//     if (!res.target) {
+//         placePopup(oPopup);
+//     }
 
-    drawEditor(res.query);
-    drawPaniniRules(res.data);
+//     drawEditor(res.query);
+//     drawPaniniRules(res.data);
 
-    let exter = q('#morph-exter');
-    let drag = new draggable(oPopup);
-    // this.drag = drag;
-    let exterev = events(exter, {
-        onmousedown: function(ev) {
-            drag._disabled = true;
-        },
-        onmouseup: function(ev) {
-            drag._disabled = false;
-        }
-    });
-    exterev.bind('mousedown', 'onmousedown');
-    exterev.bind('mouseup', 'onmouseup');
+//     let exter = q('#morph-exter');
+//     let drag = new draggable(oPopup);
+//     // this.drag = drag;
+//     let exterev = events(exter, {
+//         onmousedown: function(ev) {
+//             drag._disabled = true;
+//         },
+//         onmouseup: function(ev) {
+//             drag._disabled = false;
+//         }
+//     });
+//     exterev.bind('mousedown', 'onmousedown');
+//     exterev.bind('mouseup', 'onmouseup');
 
-    var x = q('#morph-x');
-    var xev = events(x, {
-        closePopup: function(e) {
-            closeAll();
-        }
-    });
-    xev.bind('click', 'closePopup');
-}
-
-
-
-function drawEditor(query) {
-    let oEd = q('#morph-editor');
-    oEd.contentEditable = true;
-    oEd.textContent = query;
-}
-
-function drawPaniniRules(data) {
-    // http://sanskritdocuments.org/learning_tools/sarvanisutrani/7.4.77.htm
-    let oRules = q('#morph-rules');
-    let rules = data.d;
-    rules.forEach(function(r) {
-        // log('R-s', r.r, sutra[r.r]);
-        let oLi = cre('li');
-        let nagaris = r.i.map(function(iform) {
-            let parts = iform.split('+');
-            return parts.map(function(part) { return salita.slp2sa(part); }).join(' + ');
-        });
-        let iforms = nagaris.join(', ');
-
-
-        let oForm = cspan(iforms, 'sutra-form');
-        oLi.appendChild(oForm);
-
-        // let rr = ['(', r.r, ')'].join('');
-        let stext = [r.r, sutra[r.r]].join(' - ');
-        let oSutra = cspan(stext, 'sutra-text');
-        oLi.appendChild(oSutra);
-
-        // let rule = [stext, iforms].join(': ');
-        // oLi.textContent = rule;
-        oRules.appendChild(oLi);
-    });
-    var rulev = events(oRules, {
-        showSutra: function(e) {
-            // log('SNAME', e.target.textContent);
-            let num = e.target.textContent.split('-')[0].trim();
-            let sutrani = 'http://sanskritdocuments.org/learning_tools/sarvanisutrani/';
-            let url = [sutrani, num, '.htm'].join('');
-            window.open(url,'_blank');
-        }
-    });
-    rulev.bind('click span.sutra-text', 'showSutra');
-}
+//     var x = q('#morph-x');
+//     var xev = events(x, {
+//         closePopup: function(e) {
+//             closeAll();
+//         }
+//     });
+//     xev.bind('click', 'closePopup');
+// }
 
 
 
-function createPopup() {
-    let pop = cre('div');
-    pop.id = 'morph-popup';
-    classes(pop).add('morph-popup');
-    let head = createHeader();
-    pop.appendChild(head);
+// function drawEditor(query) {
+//     let oEd = q('#morph-editor');
+//     oEd.contentEditable = true;
+//     oEd.textContent = query;
+// }
 
-    let oExter = cre('div');
-    oExter.id = 'morph-exter';
-    classes(oExter).add('morph-inner');
-    pop.appendChild(oExter);
-    let oInner = cre('div');
-    oInner.id = 'morph-inner';
-    classes(oInner).add('morph-inner');
-    oExter.appendChild(oInner);
-    let oPdch = cre('div');
-    oPdch.id = 'morph-pdch';
-    classes(oPdch).add('morph-pdch');
-    oInner.appendChild(oPdch);
-    let oRules = cre('ul');
-    oRules.id = 'morph-rules';
-    classes(oRules).add('morph-rules');
-    oInner.appendChild(oRules);
-    // let oDict = cre('div');
-    // oDict.id = 'morph-dict';
-    // classes(oDict).add('morph-dict');
-    // oInner.appendChild(oDict);
-    return pop;
-}
+// function drawPaniniRules(data) {
+//     // http://sanskritdocuments.org/learning_tools/sarvanisutrani/7.4.77.htm
+//     let oRules = q('#morph-rules');
+//     let rules = data.d;
+//     rules.forEach(function(r) {
+//         // log('R-s', r.r, sutra[r.r]);
+//         let oLi = cre('li');
+//         let nagaris = r.i.map(function(iform) {
+//             let parts = iform.split('+');
+//             return parts.map(function(part) { return salita.slp2sa(part); }).join(' + ');
+//         });
+//         let iforms = nagaris.join(', ');
 
-function createHeader() {
-    var head = cre('div');
-    head.id = 'morph-header';
-    classes(head).add('morph-header');
 
-    var oVersion = cre('div');
-    oVersion.id = 'version';
-    classes(oVersion).add('version');
-    let oX = cre('div');
-    oX.id = 'morph-x';
-    oX.textContent = '[x]';
-    classes(oX).add('morph-x');
-    oVersion.appendChild(oX);
+//         let oForm = cspan(iforms, 'sutra-form');
+//         oLi.appendChild(oForm);
 
-    var oVersionText = cre('div');
-    oVersionText.textContent = 'पाणिनि  -  v.0.1';
-    classes(oVersionText).add('vtext');
-    oVersion.appendChild(oVersionText);
-    // var clear = cre('div');
-    // clear.id = 'clear-both';
-    // head.appendChild(clear);
+//         // let rr = ['(', r.r, ')'].join('');
+//         let stext = [r.r, sutra[r.r]].join(' - ');
+//         let oSutra = cspan(stext, 'sutra-text');
+//         oLi.appendChild(oSutra);
 
-    head.appendChild(oVersion);
+//         // let rule = [stext, iforms].join(': ');
+//         // oLi.textContent = rule;
+//         oRules.appendChild(oLi);
+//     });
+//     var rulev = events(oRules, {
+//         showSutra: function(e) {
+//             // log('SNAME', e.target.textContent);
+//             let num = e.target.textContent.split('-')[0].trim();
+//             let sutrani = 'http://sanskritdocuments.org/learning_tools/sarvanisutrani/';
+//             let url = [sutrani, num, '.htm'].join('');
+//             window.open(url,'_blank');
+//         }
+//     });
+//     rulev.bind('click span.sutra-text', 'showSutra');
+// }
 
-    var oEd = cre('div');
-    oEd.id = 'morph-editor';
-    classes(oEd).add('morph-editor');
-    oEd.setAttribute('type', 'text');
-    head.appendChild(oEd);
-    return head;
-}
+
+
+// function createPopup() {
+//     let pop = cre('div');
+//     pop.id = 'morph-popup';
+//     classes(pop).add('morph-popup');
+//     let head = createHeader();
+//     pop.appendChild(head);
+
+//     let oExter = cre('div');
+//     oExter.id = 'morph-exter';
+//     classes(oExter).add('morph-inner');
+//     pop.appendChild(oExter);
+//     let oInner = cre('div');
+//     oInner.id = 'morph-inner';
+//     classes(oInner).add('morph-inner');
+//     oExter.appendChild(oInner);
+//     let oPdch = cre('div');
+//     oPdch.id = 'morph-pdch';
+//     classes(oPdch).add('morph-pdch');
+//     oInner.appendChild(oPdch);
+//     let oRules = cre('ul');
+//     oRules.id = 'morph-rules';
+//     classes(oRules).add('morph-rules');
+//     oInner.appendChild(oRules);
+//     // let oDict = cre('div');
+//     // oDict.id = 'morph-dict';
+//     // classes(oDict).add('morph-dict');
+//     // oInner.appendChild(oDict);
+//     return pop;
+// }
+
+// function createHeader() {
+//     var head = cre('div');
+//     head.id = 'morph-header';
+//     classes(head).add('morph-header');
+
+//     var oVersion = cre('div');
+//     oVersion.id = 'version';
+//     classes(oVersion).add('version');
+//     let oX = cre('div');
+//     oX.id = 'morph-x';
+//     oX.textContent = '[x]';
+//     classes(oX).add('morph-x');
+//     oVersion.appendChild(oX);
+
+//     var oVersionText = cre('div');
+//     oVersionText.textContent = 'पाणिनि  -  v.0.1';
+//     classes(oVersionText).add('vtext');
+//     oVersion.appendChild(oVersionText);
+//     // var clear = cre('div');
+//     // clear.id = 'clear-both';
+//     // head.appendChild(clear);
+
+//     head.appendChild(oVersion);
+
+//     var oEd = cre('div');
+//     oEd.id = 'morph-editor';
+//     classes(oEd).add('morph-editor');
+//     oEd.setAttribute('type', 'text');
+//     head.appendChild(oEd);
+//     return head;
+// }
 
 
 function q(sel) {
@@ -321,17 +321,17 @@ document.onkeyup = function(e) {
 //     return a;
 // }
 
-function placePopup(popup) {
-    let coords = getCoords();
-    coords.top = coords.top + 100;
-    coords.left = coords.left + 100;
-    // oldCoords = coords;
-    let top = [coords.top, 'px'].join('');
-    let left = [coords.left, 'px'].join('');
-    popup.style.top = top;
-    popup.style.left = left;
-    // console.log('COORDS', top, left);
-}
+// function placePopup(popup) {
+//     let coords = getCoords();
+//     coords.top = coords.top + 100;
+//     coords.left = coords.left + 100;
+//     // oldCoords = coords;
+//     let top = [coords.top, 'px'].join('');
+//     let left = [coords.left, 'px'].join('');
+//     popup.style.top = top;
+//     popup.style.left = left;
+//     // console.log('COORDS', top, left);
+// }
 
 function getCoords() {
     let selection = window.getSelection();
