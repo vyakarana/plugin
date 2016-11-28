@@ -1,4 +1,5 @@
-//
+// pAnini-plugin
+
 'use strict';
 
 var classes = require('component/classes');
