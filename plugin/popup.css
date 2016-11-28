@@ -379,6 +379,13 @@ li.morph-rules {
     background: white;
 }
 
+.morph-long {
+    font-size: 20px;
+    font-family: Siddhanta;
+    line-height: 22px;
+}
+
+
 
 /* li.tree-leaf { */
 /*   font-size: 18px; */

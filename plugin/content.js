@@ -93,16 +93,8 @@
 //
 'use strict';
 
-// log('===START===');
-
 var classes = require('component/classes');
-// var salita = require('mbykov/salita');
-// var events = require('component/events');
-// var draggable = require('./draggable');
 var popup = require('./popup');
-// log('SUTRA:');
-// let sutra = require('./sutradetailsformorpheus.json');
-// log('SUTRA', sutra);
 
 
 function messToBack(message) {
@@ -118,7 +110,6 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
     // console.log('RES SUTRA', msg.res);
     closeAll();
     popup.show(msg.res);
-    // showPopup(msg.res);
 });
 
 
@@ -147,15 +138,6 @@ document.addEventListener('dblclick', function(ev) {
         throw new Error();
     }
 
-    // showTranslit(); // indicator.gif
-    // if (ev.shiftKey == true) {
-    //     let iast = salita.sa2iast(nagari);
-    //     showTranslit(iast);
-    //     return;
-    // }
-
-    // // let target = (ev.target && (ev.target.id == 'akshara' || classes(ev.target).has('nagari'))) ? 'acala' : null; // immovable
-    // let target = (isInPopup(ev)) ? true : false;
     let target = false;
 
     // FIXME:
@@ -177,157 +159,6 @@ document.addEventListener('dblclick', function(ev) {
 
 }, false);
 
-
-// /**
-//  *
-//  * @param {} res
-//  */
-// function showPopup(res) {
-//     closeAll();
-//     let oPopup = createPopup();
-//     q('body').appendChild(oPopup);
-//     // console.log('SHOW POPUP DATA', res.data);
-//     // console.log('TARGET... should be false', res.target);
-
-//     if (!res.target) {
-//         placePopup(oPopup);
-//     }
-
-//     drawEditor(res.query);
-//     drawPaniniRules(res.data);
-
-//     let exter = q('#morph-exter');
-//     let drag = new draggable(oPopup);
-//     // this.drag = drag;
-//     let exterev = events(exter, {
-//         onmousedown: function(ev) {
-//             drag._disabled = true;
-//         },
-//         onmouseup: function(ev) {
-//             drag._disabled = false;
-//         }
-//     });
-//     exterev.bind('mousedown', 'onmousedown');
-//     exterev.bind('mouseup', 'onmouseup');
-
-//     var x = q('#morph-x');
-//     var xev = events(x, {
-//         closePopup: function(e) {
-//             closeAll();
-//         }
-//     });
-//     xev.bind('click', 'closePopup');
-// }
-
-
-
-// function drawEditor(query) {
-//     let oEd = q('#morph-editor');
-//     oEd.contentEditable = true;
-//     oEd.textContent = query;
-// }
-
-// function drawPaniniRules(data) {
-//     // http://sanskritdocuments.org/learning_tools/sarvanisutrani/7.4.77.htm
-//     let oRules = q('#morph-rules');
-//     let rules = data.d;
-//     rules.forEach(function(r) {
-//         // log('R-s', r.r, sutra[r.r]);
-//         let oLi = cre('li');
-//         let nagaris = r.i.map(function(iform) {
-//             let parts = iform.split('+');
-//             return parts.map(function(part) { return salita.slp2sa(part); }).join(' + ');
-//         });
-//         let iforms = nagaris.join(', ');
-
-
-//         let oForm = cspan(iforms, 'sutra-form');
-//         oLi.appendChild(oForm);
-
-//         // let rr = ['(', r.r, ')'].join('');
-//         let stext = [r.r, sutra[r.r]].join(' - ');
-//         let oSutra = cspan(stext, 'sutra-text');
-//         oLi.appendChild(oSutra);
-
-//         // let rule = [stext, iforms].join(': ');
-//         // oLi.textContent = rule;
-//         oRules.appendChild(oLi);
-//     });
-//     var rulev = events(oRules, {
-//         showSutra: function(e) {
-//             // log('SNAME', e.target.textContent);
-//             let num = e.target.textContent.split('-')[0].trim();
-//             let sutrani = 'http://sanskritdocuments.org/learning_tools/sarvanisutrani/';
-//             let url = [sutrani, num, '.htm'].join('');
-//             window.open(url,'_blank');
-//         }
-//     });
-//     rulev.bind('click span.sutra-text', 'showSutra');
-// }
-
-
-
-// function createPopup() {
-//     let pop = cre('div');
-//     pop.id = 'morph-popup';
-//     classes(pop).add('morph-popup');
-//     let head = createHeader();
-//     pop.appendChild(head);
-
-//     let oExter = cre('div');
-//     oExter.id = 'morph-exter';
-//     classes(oExter).add('morph-inner');
-//     pop.appendChild(oExter);
-//     let oInner = cre('div');
-//     oInner.id = 'morph-inner';
-//     classes(oInner).add('morph-inner');
-//     oExter.appendChild(oInner);
-//     let oPdch = cre('div');
-//     oPdch.id = 'morph-pdch';
-//     classes(oPdch).add('morph-pdch');
-//     oInner.appendChild(oPdch);
-//     let oRules = cre('ul');
-//     oRules.id = 'morph-rules';
-//     classes(oRules).add('morph-rules');
-//     oInner.appendChild(oRules);
-//     // let oDict = cre('div');
-//     // oDict.id = 'morph-dict';
-//     // classes(oDict).add('morph-dict');
-//     // oInner.appendChild(oDict);
-//     return pop;
-// }
-
-// function createHeader() {
-//     var head = cre('div');
-//     head.id = 'morph-header';
-//     classes(head).add('morph-header');
-
-//     var oVersion = cre('div');
-//     oVersion.id = 'version';
-//     classes(oVersion).add('version');
-//     let oX = cre('div');
-//     oX.id = 'morph-x';
-//     oX.textContent = '[x]';
-//     classes(oX).add('morph-x');
-//     oVersion.appendChild(oX);
-
-//     var oVersionText = cre('div');
-//     oVersionText.textContent = 'पाणिनि  -  v.0.1';
-//     classes(oVersionText).add('vtext');
-//     oVersion.appendChild(oVersionText);
-//     // var clear = cre('div');
-//     // clear.id = 'clear-both';
-//     // head.appendChild(clear);
-
-//     head.appendChild(oVersion);
-
-//     var oEd = cre('div');
-//     oEd.id = 'morph-editor';
-//     classes(oEd).add('morph-editor');
-//     oEd.setAttribute('type', 'text');
-//     head.appendChild(oEd);
-//     return head;
-// }
 
 
 function q(sel) {
@@ -357,12 +188,6 @@ function cret(str) {
     return document.createTextNode(str);
 }
 
-// function sa(str) {
-//     let oSa = cre('span');
-//     classes(oSa).add('nagari');
-//     oSa.textContent = str;
-//     return oSa;
-// }
 
 function empty(el) {
     while (el.hasChildNodes()) {
@@ -385,8 +210,6 @@ function closeAll() {
     let oTip = q('#morph-tip');
     if (oTip) oTip.parentElement.removeChild(oTip);
 
-    // window.getSelection().removeAllRanges();
-    // FIXME: нельзя - после закрытия мне нужен getCoords
 }
 
 function cleanNagari(str) {
@@ -401,30 +224,6 @@ document.onkeyup = function(e) {
 }
 
 
-// function unique(arr){
-//     let u = {}, a = [];
-//     for(let i = 0, l = arr.length; i < l; ++i){
-//         if(u.hasOwnProperty(arr[i])) {
-//             continue;
-//         }
-//         a.push(arr[i]);
-//         u[arr[i]] = 1;
-//     }
-//     return a;
-// }
-
-// function placePopup(popup) {
-//     let coords = getCoords();
-//     coords.top = coords.top + 100;
-//     coords.left = coords.left + 100;
-//     // oldCoords = coords;
-//     let top = [coords.top, 'px'].join('');
-//     let left = [coords.left, 'px'].join('');
-//     popup.style.top = top;
-//     popup.style.left = left;
-//     // console.log('COORDS', top, left);
-// }
-
 function getCoords() {
     let selection = window.getSelection();
     let oRange = selection.getRangeAt(0); //get the text range
@@ -432,7 +231,6 @@ function getCoords() {
     let bodyScrollTop = document.documentElement.scrollTop || document.body.scrollTop;
     return {top: oRect.top + bodyScrollTop, left: oRect.left};
 }
-
 
 // coords from selection
 function showIndicator() {
@@ -444,7 +242,6 @@ function showIndicator() {
     oTip.appendChild(img);
     q('body').appendChild(oTip);
     let coords = getCoords();
-    // log('INDICATOR', coords.top, coords.left);
     coords.top = coords.top - 50;
     let top = [coords.top, 'px'].join('');
     let left = [coords.left, 'px'].join('');
@@ -452,24 +249,6 @@ function showIndicator() {
     oTip.style.left = left;
 }
 
-function showTranslit(iast) {
-    var oTip = q('#tip');
-    if (oTip) oTip.parentElement.removeChild(oTip);
-    oTip = cre('div');
-    oTip.id = 'tip';
-    classes(oTip).add('translit');
-    if (iast) oTip.textContent = iast;
-    else {
-        var img = cre('img');
-        img.src = chrome.extension.getURL('popup/img/indicator.gif');
-        oTip.appendChild(img);
-    }
-    q('body').appendChild(oTip);
-    var coords = getCoords();
-    coords.top = coords.top - 50;
-    placePopup(coords, oTip);
-    // FIXME: но только как его закрыть?
-}
 
 function log() { console.log.apply(console, arguments);}
 
@@ -697,14 +476,13 @@ module.exports = function(arr, obj){
 3: [function(require, module, exports) {
 // list of sutras and word forms as a component for panini-plugin
 
+'use strict';
 
 var classes = require('component/classes');
 var salita = require('mbykov/salita');
 var events = require('component/events');
 var draggable = require('./draggable');
 let sutra = require('./data/sutradetailsformorpheus.json');
-// log('SUTRA', sutra);
-
 
 module.exports = popup();
 
@@ -713,14 +491,9 @@ function popup() {
 }
 
 popup.prototype.show = function(res) {
-    log('HERE ARE RULE-LIST', res);
-    // showPopup(res);
-    // return 'kuku';
     closeAll();
     let oPopup = createPopup();
     q('body').appendChild(oPopup);
-    // console.log('SHOW POPUP DATA', res.data);
-    // console.log('TARGET... should be false', res.target);
 
     if (!res.target) {
         placePopup(oPopup);
@@ -731,7 +504,6 @@ popup.prototype.show = function(res) {
 
     let exter = q('#morph-exter');
     let drag = new draggable(oPopup);
-    // this.drag = drag;
     let exterev = events(exter, {
         onmousedown: function(ev) {
             drag._disabled = true;
@@ -797,9 +569,6 @@ function createHeader() {
     oVersionText.textContent = 'पाणिनि  -  v.0.1';
     classes(oVersionText).add('vtext');
     oVersion.appendChild(oVersionText);
-    // var clear = cre('div');
-    // clear.id = 'clear-both';
-    // head.appendChild(clear);
 
     head.appendChild(oVersion);
 
@@ -815,7 +584,6 @@ function placePopup(popup) {
     let coords = getCoords();
     coords.top = coords.top + 100;
     coords.left = coords.left + 100;
-    // oldCoords = coords;
     let top = [coords.top, 'px'].join('');
     let left = [coords.left, 'px'].join('');
     popup.style.top = top;
@@ -847,11 +615,9 @@ function closeAll() {
 }
 
 function drawPaniniRules(data) {
-    // http://sanskritdocuments.org/learning_tools/sarvanisutrani/7.4.77.htm
     let oRules = q('#morph-rules');
     let rules = data.d;
     rules.forEach(function(r) {
-        // log('R-s', r.r, sutra[r.r]);
         let oLi = cre('li');
         let nagaris = r.i.map(function(iform) {
             let parts = iform.split('+');
@@ -885,32 +651,60 @@ function drawPaniniRules(data) {
 
         oRules.appendChild(oLi);
     });
-    var rulev = events(oRules, {
+    let rulev = events(oRules, {
         showSutra: function(e) {
-            // log('SNAME', e.target.textContent);
-            let num = e.target.textContent.split('-')[0].trim();
+            // let num = e.target.textContent.split('-')[0].trim();
+            let oNum = e.target.parentElement.querySelector('.sutra-num');
+            log('111', e.target.parentElement, oNum);
+            let num = oNum.textContent;
             let sutrani = 'http://sanskritdocuments.org/learning_tools/sarvanisutrani/';
             let url = [sutrani, num, '.htm'].join('');
             window.open(url,'_blank');
         },
         showLongString: function(e) {
-            // let num = e.target.textContent.split('-')[0].trim();
             if (!e.shiftKey || !e.target.nextSibling) return;
-            log('LONG', e.target.nextSibling.textContent);
+            showLong(e);
+        },
+        closeLongString: function(e) {
+            closeLong();
         }
-
     });
     rulev.bind('click span.sutra-text', 'showSutra');
     rulev.bind('mouseover span.sutra-text', 'showLongString');
+    rulev.bind('mouseout span.sutra-text', 'closeLongString');
 }
 
+function showLong(e) {
+    let oTip = q('#morph-tip');
+    if (!oTip) {
+        oTip = cre('div');
+        oTip.id = 'morph-tip';
+        classes(oTip).add('morph-long');
+        q('body').appendChild(oTip);
+    }
+    let clean = e.target.textContent.replace('...', '');
+    let stext = [clean, e.target.nextSibling.textContent].join('');
+    oTip.textContent = stext;
+    let rect = e.target.getBoundingClientRect();
+    let bodyScrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+    let top = [rect.top + bodyScrollTop - 50, 'px'].join('');
+    let left = [rect.left, 'px'].join('');
+    oTip.style.top = top;
+    oTip.style.left = left;
+}
+
+function closeLong() {
+    var oTip = q('#morph-tip');
+    if (oTip) oTip.parentElement.removeChild(oTip);
+}
+
+var oTip = q('#tip');
 
 function drawEditor(query) {
     let oEd = q('#morph-editor');
     oEd.contentEditable = true;
     oEd.textContent = query;
 }
-
 
 function cre(tag) {
     return document.createElement(tag);
