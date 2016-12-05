@@ -90,7 +90,8 @@
    return require;
 })({
 1: [function(require, module, exports) {
-//
+// pAnini-plugin
+
 'use strict';
 
 var classes = require('component/classes');
@@ -588,7 +589,6 @@ function placePopup(popup) {
     let left = [coords.left, 'px'].join('');
     popup.style.top = top;
     popup.style.left = left;
-    log('PLACE COORDS', top, left);
 }
 
 function getCoords() {
@@ -653,9 +653,7 @@ function drawPaniniRules(data) {
     });
     let rulev = events(oRules, {
         showSutra: function(e) {
-            // let num = e.target.textContent.split('-')[0].trim();
             let oNum = e.target.parentElement.querySelector('.sutra-num');
-            log('111', e.target.parentElement, oNum);
             let num = oNum.textContent;
             let sutrani = 'http://sanskritdocuments.org/learning_tools/sarvanisutrani/';
             let url = [sutrani, num, '.htm'].join('');
