@@ -30,3 +30,5 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
 });
 
 // function log() { console.log.apply(console, arguments); }
+
+// http://localhost:5984/panini-rules/_design/panini-rules/_view/byForm?key=%22kodayante%22&include_docs=true
