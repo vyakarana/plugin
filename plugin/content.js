@@ -108,7 +108,8 @@ function messToBack(message) {
 chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
     if (msg.action != 'morph_result') return;
     if (!msg.res.data) return;
-    // console.log('RES SUTRA', msg.res);
+    console.log('RES SUTRA - msg.res:', msg.res);
+    console.log('RES SUTRA data:', msg.res.data);
     closeAll();
     popup.show(msg.res);
 });
@@ -116,28 +117,26 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
 
 document.addEventListener('dblclick', function(ev) {
     let selection = window.getSelection();
-    let nagari = selection.toString().split(' ')[0];
-    nagari = nagari.trim();
-    nagari = cleanNagari(nagari);
-
-    if (!nagari || nagari == '') return;
-    console.log('CLICKED', nagari);
-    showIndicator();
-
 
     let anchor = selection.anchorNode;
     if (anchor.parentElement.nodeName == 'SPAN') anchor = anchor.parentElement.parentElement; // spanned el
     if (anchor.nodeName == 'SPAN') anchor = anchor.parentElement; // doubled span, wordpress.com
     let text = anchor.textContent;
     let offset = selection.anchorOffset ;
+    log('OFFSET', offset);
     let substr = text.substr(offset, 50);
-    let words = substr.split(' ');
+    // let words = substr.split(' ');
+    let words = selection.toString().split(/[ ,;\."]+/)[0];
+    let nagari = words[0];
     let next = words[1];
+    nagari = nagari.trim();
+    nagari = cleanNagari(nagari);
 
-    if (words[0] != nagari) {
-        console.log('STRANGE NAGARI', nagari);
-        throw new Error();
-    }
+    if (!nagari || nagari == '') return;
+    console.log('CLICKED', nagari, 'NEXT', next);
+
+    showIndicator();
+
 
     let target = false;
 

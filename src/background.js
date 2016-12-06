@@ -1,6 +1,6 @@
 // main
 
-let server = 'http://localhost:5984/';
+let server = 'http://admin:kjre4317@localhost:5984/';
 let view = 'panini-rules/_design/panini-rules/_view/byForm?key=%22';
 let tail = '%22&include_docs=true';
 
@@ -8,7 +8,9 @@ let tail = '%22&include_docs=true';
 // var server = 'http://sa.diglossa.org:3002';
 
 chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
-    message.form = 'kodayanti';
+    // message.form = 'kodayanti';
+    message.form = 'कोदयति';
+    console.log('QUERY', message.form);
     let query = [server, view, message.form, tail].join('');
     console.log('Q', query);
     let xhr = new XMLHttpRequest();
@@ -19,6 +21,10 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
             let res = {query: message.form};
             console.log('XHR', xhr.responseText);
             let response = JSON.parse(xhr.responseText);
+            if (response.error) {
+                console.log('no doc');
+                return;
+            }
             let doc = response.rows[0].doc;
             console.log('DOC', doc);
             if (xhr.responseText) res.data = doc;
