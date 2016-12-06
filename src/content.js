@@ -3,7 +3,7 @@
 'use strict';
 
 var classes = require('component/classes');
-var popup = require('vykarana/popup');
+var popup = require('vyakarana/popup');
 // var popup = require('./popup');
 
 
