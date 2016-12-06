@@ -3,11 +3,11 @@
 'use strict';
 
 var classes = require('component/classes');
-var popup = require('./popup');
+var popup = require('vykarana/popup');
+// var popup = require('./popup');
 
 
 function messToBack(message) {
-    // console.log('MESS to back  start', message);
     chrome.runtime.sendMessage(message, function(response) {
         // cb(response);
     });
@@ -16,8 +16,7 @@ function messToBack(message) {
 chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
     if (msg.action != 'morph_result') return;
     if (!msg.res.data) return;
-    console.log('RES SUTRA - msg.res:', msg.res);
-    console.log('RES SUTRA data:', msg.res.data);
+    // console.log('RES SUTRA data:', msg.res.data);
     closeAll();
     popup.show(msg.res);
 });
@@ -26,22 +25,25 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
 document.addEventListener('dblclick', function(ev) {
     let selection = window.getSelection();
 
-    let anchor = selection.anchorNode;
-    if (anchor.parentElement.nodeName == 'SPAN') anchor = anchor.parentElement.parentElement; // spanned el
-    if (anchor.nodeName == 'SPAN') anchor = anchor.parentElement; // doubled span, wordpress.com
-    let text = anchor.textContent;
-    let offset = selection.anchorOffset ;
-    log('OFFSET', offset);
-    let substr = text.substr(offset, 50);
-    // let words = substr.split(' ');
-    let words = selection.toString().split(/[ ,;\."]+/)[0];
-    let nagari = words[0];
-    let next = words[1];
+    // let anchor = selection.anchorNode;
+    // if (anchor.parentElement.nodeName == 'SPAN') anchor = anchor.parentElement.parentElement; // spanned el
+    // if (anchor.nodeName == 'SPAN') anchor = anchor.parentElement; // doubled span, wordpress.com
+    // let text = anchor.textContent;
+    // let offset = selection.anchorOffset ;
+    // // log('OFFSET', offset);
+    // let substr = text.substr(offset, 50);
+    // // let words = substr.split(' ');
+    // let words = selection.toString().split(/[ ,;\."]+/)[0];
+    // // let nagari = words[0];
+
+    let nagari = selection.toString();
+    // let next = words[1];
+    let next = null;
     nagari = nagari.trim();
     nagari = cleanNagari(nagari);
 
     if (!nagari || nagari == '') return;
-    console.log('CLICKED', nagari, 'NEXT', next);
+    // console.log('CLICKED', nagari, 'NEXT', next);
 
     showIndicator();
 
@@ -49,7 +51,7 @@ document.addEventListener('dblclick', function(ev) {
     let target = false;
 
     // FIXME:
-    nagari = 'कोदयति';
+    // nagari = 'कोदयति';
 
     if (/ऽ/.test(nagari)) {
         let query = nagari.split('ऽ').join(' अ');

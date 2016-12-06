@@ -108,8 +108,8 @@ function messToBack(message) {
 chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
     if (msg.action != 'morph_result') return;
     if (!msg.res.data) return;
-    console.log('RES SUTRA - msg.res:', msg.res);
-    console.log('RES SUTRA data:', msg.res.data);
+    // console.log('RES SUTRA - msg.res:', msg.res);
+    // console.log('RES SUTRA data:', msg.res.data);
     closeAll();
     popup.show(msg.res);
 });
@@ -123,11 +123,12 @@ document.addEventListener('dblclick', function(ev) {
     if (anchor.nodeName == 'SPAN') anchor = anchor.parentElement; // doubled span, wordpress.com
     let text = anchor.textContent;
     let offset = selection.anchorOffset ;
-    log('OFFSET', offset);
+    // log('OFFSET', offset);
     let substr = text.substr(offset, 50);
     // let words = substr.split(' ');
     let words = selection.toString().split(/[ ,;\."]+/)[0];
-    let nagari = words[0];
+    // let nagari = words[0];
+    let nagari = selection.toString();
     let next = words[1];
     nagari = nagari.trim();
     nagari = cleanNagari(nagari);
@@ -141,7 +142,7 @@ document.addEventListener('dblclick', function(ev) {
     let target = false;
 
     // FIXME:
-    nagari = 'कोदयति';
+    // nagari = 'कोदयति';
 
     if (/ऽ/.test(nagari)) {
         let query = nagari.split('ऽ').join(' अ');
@@ -618,11 +619,12 @@ function drawPaniniRules(data) {
     let rules = data.d;
     rules.forEach(function(r) {
         let oLi = cre('li');
-        let nagaris = r.i.map(function(iform) {
-            let parts = iform.split('+');
-            return parts.map(function(part) { return salita.slp2sa(part); }).join(' + ');
-        });
-        let iforms = nagaris.join(', ');
+        // let nagaris = r.i.map(function(iform) {
+        //     let parts = iform.split('+');
+        //     return parts.map(function(part) { return salita.slp2sa(part); }).join(' + ');
+        // });
+        // let iforms = nagaris.join(', ');
+        let iforms = r.i.join(', ');
 
         let oForm = cspan(iforms, 'sutra-form');
         oLi.appendChild(oForm);
